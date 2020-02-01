@@ -43,6 +43,13 @@ ifeq ($(PLATFORM),linux)
   fdb_c_tests_LIBS += -lpthread
 endif
 
+ifeq ($(PLATFORM),freebsd)
+  fdb_c_CFLAGS += -fPIC
+  fdb_c_LIBS += -lm -lpthread -lrt -lexecinfo -ldevstat -lkvm
+  fdb_c_LDFLAGS += -lc++ -Wl,--version-script=bindings/c/fdb_c.map -Wl,-z,nodelete
+  fdb_c_tests_LIBS += -lpthread
+endif
+
 ifeq ($(PLATFORM),osx)
   fdb_c_LDFLAGS += -lc++ -Xlinker -exported_symbols_list -Xlinker bindings/c/fdb_c.symbols
   fdb_c_tests_LIBS += -lpthread
