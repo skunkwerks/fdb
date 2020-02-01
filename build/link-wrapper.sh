@@ -82,6 +82,10 @@ case $1 in
 			    objcopy --add-gnu-debuglink=$3.debug $3
 			    ./build/link-validate.sh $3 $4
 			    ;;
+			freebsd)
+			    cp $3 $3.debug
+			    if [ -z "${NOSTRIP}" ]; then strip $3; fi
+			    ;;
 			osx)
 			    cp $3 $3.debug
 			    if [ -z "${NOSTRIP}" ]; then strip $3; fi
@@ -96,6 +100,9 @@ case $1 in
 		    cp $3 $3-debug
 		    case $PLATFORM in
 			linux)
+			    if [ -z "${NOSTRIP}" ]; then strip --strip-all $3; fi
+			    ;;
+			freebsd)
 			    if [ -z "${NOSTRIP}" ]; then strip --strip-all $3; fi
 			    ;;
 			osx)
