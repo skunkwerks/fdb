@@ -2420,6 +2420,8 @@ std::string getDefaultPluginPath( const char* plugin_name ) {
 	return format( "%splugins\\%s.dll", installPath.c_str(), plugin_name );
 #elif defined(__linux__)
 	return format( "/usr/lib/foundationdb/plugins/%s.so", plugin_name );
+#elif defined(__FreeBSD__)
+	return format( "/usr/local/lib/foundationdb/plugins/%s.so", plugin_name );
 #elif defined(__APPLE__)
 	return format( "/usr/local/foundationdb/plugins/%s.dylib", plugin_name );
 #else
