@@ -50,7 +50,7 @@ intptr_t g_stackYieldLimit = 0;
 using namespace boost::asio::ip;
 
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <execinfo.h>
 
 std::atomic<int64_t> net2liveness(0);

@@ -20,8 +20,11 @@
 
 # -*- mode: makefile; -*-
 
-flow_CFLAGS := -isystem$(BOOSTDIR) -I. -DUSE_UCONTEXT
+flow_CFLAGS := -isystem$(BOOSTDIR) -I$(BOOSTDIR) -I$(BOOSTDIR)/include -I. -Iflow -DUSE_UCONTEXT
 flow_LDFLAGS :=
+ifeq ($(PLATFORM),freebsd)
+flow_LIBS := -lm -lc++ -lpthread -lexecinfo
+endif
 
 ifeq ($(PLATFORM),osx)
   flow_CFLAGS += -fasynchronous-unwind-tables -fno-omit-frame-pointer
