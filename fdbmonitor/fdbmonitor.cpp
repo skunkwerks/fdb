@@ -1183,7 +1183,7 @@ int main(int argc, char** argv) {
 	// testPathOps(); return -1;
 
 	std::string lockfile = "/var/run/fdbmonitor.pid";
-	std::string _confpath = "/etc/foundationdb/foundationdb.conf";
+	std::string _confpath = "/usr/local/etc/foundationdb/foundationdb.conf";
 
 	std::vector<const char *> additional_watch_paths;
 
