@@ -33,8 +33,11 @@ endif()
 ################################################################################
 
 set(WITH_JAVA OFF)
-find_package(JNI 1.8 REQUIRED)
-find_package(Java 1.8 COMPONENTS Development)
+# leave FreeBSD JVM compat for later
+if(NOT (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"))
+  find_package(JNI 1.8 REQUIRED)
+  find_package(Java 1.8 COMPONENTS Development)
+endif()
 if(JNI_FOUND AND Java_FOUND AND Java_Development_FOUND)
   set(WITH_JAVA ON)
   include(UseJava)
