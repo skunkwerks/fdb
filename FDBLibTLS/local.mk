@@ -18,11 +18,22 @@
 # limitations under the License.
 #
 
+ifeq ($(PLATFORM),FreeBSD)
+FDBLibTLS_CFLAGS := -fPIC -I/usr/local/include -I$(BOOSTDIR)
+FDBLibTLS_LIBS := -lssl -lcrypto
+FDBLibTLS_LDFLAGS := -lc++
+else
+FDBLibTLS_STATIC_LIBS := -ltls -lssl -lcrypto
+FDBLibTLS_LDFLAGS := -L/usr/local/lib -static-libstdc++ -static-libgcc -lrt
+
+
+FDBLibTLS_LDFLAGS += -Wl,-soname,FDBLibTLS.so -Wl,--version-script=FDBLibTLS/FDBLibTLS.map
+
 # -*- mode: makefile; -*-
 
 FDBLibTLS_BUILD_SOURCES +=
 
 
-FDBLibTLS_CFLAGS := -fPIC -I/usr/local/include -isystem$(BOOSTDIR) -I. -DUSE_UCONTEXT
+FDBLibTLS_CFLAGS := -fPIC -I/usr/local/include -isystem$(BOOSTDIR) -I$(BOOSTDIR) -I. -DUSE_UCONTEXT
 
 lib/libFDBLibTLS.a: bin/coverage.FDBLibTLS.xml
