@@ -48,6 +48,11 @@ else ifeq ($(PLATFORM),osx)
   fdb_java_CFLAGS += -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
 
   java_ARCH := x86_64
+else ifeq ($(PLATFORM),freebsd)
+  JAVA_HOME ?= /usr/local/openjdk8
+  fdb_java_CFLAGS += -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/freebsd
+
+  java_ARCH := amd64
 endif
 
 JAVA_GENERATED_SOURCES := bindings/java/src/main/com/apple/foundationdb/NetworkOptions.java bindings/java/src/main/com/apple/foundationdb/DatabaseOptions.java bindings/java/src/main/com/apple/foundationdb/TransactionOptions.java bindings/java/src/main/com/apple/foundationdb/StreamingMode.java bindings/java/src/main/com/apple/foundationdb/ConflictRangeType.java bindings/java/src/main/com/apple/foundationdb/MutationType.java bindings/java/src/main/com/apple/foundationdb/FDBException.java
@@ -117,7 +122,7 @@ javadoc_clean:
 	@rm -rf $(JAVADOC_DIR)/javadoc
 	@rm -f bindings/java/src/main/overview.html
 
-ifeq ($(PLATFORM),linux)
+ifeq ($(PLATFORM),$(filter $(PLATFORM),linux freebsd))
 
   # We only need javadoc from one source
   TARGETS += javadoc
