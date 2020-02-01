@@ -36,6 +36,8 @@ case $1 in
 		OPTIONS+=" -shared"
 		if [ "$PLATFORM" = "linux" ]; then
 			OPTIONS+=" -Wl,-z,noexecstack -Wl,-soname,$( basename $3 )"
+		if [ "$PLATFORM" = "freebsd" ]; then
+			OPTIONS+=" -Wl,-z,noexecstack -Wl,-soname,$( basename $3 )"
 		elif [ "$PLATFORM" = "osx" ]; then
 			OPTIONS+=" -Wl,-dylib_install_name -Wl,$( basename $3 )"
 		fi
