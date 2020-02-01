@@ -201,7 +201,7 @@ else()
   if (CLANG)
     add_compile_options()
     # Clang has link errors unless `atomic` is specifically requested.
-    if(NOT APPLE)
+    if(NOT (APPLE OR (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")))
       add_link_options(-latomic)
     endif()
     if (APPLE OR USE_LIBCXX)
