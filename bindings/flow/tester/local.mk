@@ -38,4 +38,7 @@ ifeq ($(PLATFORM),linux)
   fdb_flow_tester_LDFLAGS += -static-libstdc++ -static-libgcc -ldl -lpthread -lrt -lm
 else ifeq ($(PLATFORM),osx)
   fdb_flow_tester_LDFLAGS += -lc++
+else ifeq ($(PLATFORM),freebsd)
+  fdb_flow_tester_LIBS += -lm -lpthread -lrt -lexecinfo -ldevstat -lkvm
+  fdb_flow_tester_LDFLAGS += -lc++
 endif
