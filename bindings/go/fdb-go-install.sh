@@ -25,13 +25,16 @@ platform=$(uname)
 if [[ "${platform}" == "Darwin" ]] ; then
     FDBLIBDIR="${FDBLIBDIR:-/usr/local/lib}"
     libfdbc="libfdb_c.dylib"
+elif [[ "${platform}" == "FreeBSD" ]] ; then
+    FDBLIBDIR="${FDBLIBDIR:-/lib}"
+    libfdbc="libfdb_c.so"
 elif [[ "${platform}" == "Linux" ]] ; then
     libfdbc="libfdb_c.so"
     custom_libdir="${FDBLIBDIR:-}"
     FDBLIBDIR=""
 
     if [[ -z "${custom_libdir}" ]]; then
-	search_libdirs=( '/usr/lib' '/usr/lib64' )
+	search_libdirs=( '/lib' '/usr/lib' '/usr/lib64' )
     else
 	search_libdirs=( "${custom_libdir}" )
     fi
@@ -248,8 +251,11 @@ else
             :
         elif [[ "${status}" -eq 0 ]] ; then
             echo "Building generated files."
+        if [[ "${platform}" == "FreeBSD" ]] ; then
+                cmd=( 'gmake' '-C' "${fdbdir}" 'bindings/c/foundationdb/fdb_c_options.g.h' )
+        else
             cmd=( 'make' '-C' "${fdbdir}" 'bindings/c/foundationdb/fdb_c_options.g.h' )
-
+        fi
             echo "${cmd[*]}"
             if ! "${cmd[@]}" ; then
                 let status="${status} + 1"
