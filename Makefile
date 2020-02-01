@@ -10,6 +10,8 @@ endif
 
 ifeq ($(ARCH),x86_64)
   ARCH := x64
+else ifeq ($(ARCH),amd64)
+  ARCH := x64
 else
   $(error Not prepared to compile on $(ARCH))
 endif
@@ -55,6 +57,19 @@ ifeq ($(PLATFORM),Linux)
   DLEXT := so
   java_DLEXT := so
   TARGET_LIBC_VERSION ?= 2.11
+else ifeq ($(PLATFORM),FreeBSD)
+  PLATFORM := freebsd
+
+  CC ?= clang
+  CXX ?= clang++
+
+  CFLAGS += -stdlib=libc++ -Wno-error=unused-command-line-argument
+  CXXFLAGS += -std=c++11 -stdlib=libc++ -msse4.2 -Wno-error=unused-command-line-argument -Wno-undefined-var-template -Wno-unknown-warning-option -Wno-varargs
+
+  BOOSTDIR ?= /usr/local/include
+  TLS_LIBDIR ?= /usr/local/lib
+  DLEXT := so
+  java_DLEXT := so
 else ifeq ($(PLATFORM),Darwin)
   PLATFORM := osx
 
