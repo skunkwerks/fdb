@@ -29,6 +29,9 @@ fdbcli_GENERATED_SOURCES += versions.h
 
 ifeq ($(PLATFORM),linux)
   fdbcli_LDFLAGS += -static-libstdc++ -static-libgcc -lpthread -lrt -ldl
+  fdbcli_LIBS += -lpthread -lrt
+else ifeq ($(PLATFORM),freebsd)
+  fdbcli_LDFLAGS += -lc++ -lm -lpthread -lexecinfo -ldevstat
 else ifeq ($(PLATFORM),osx)
   fdbcli_LDFLAGS += -lc++
 endif
